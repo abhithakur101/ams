@@ -1,5 +1,10 @@
 package com.ams.serviceimpl;
 
-public class EmployeeServiceImpl {
+import org.springframework.stereotype.Service;
+
+import com.ams.service.EmployeeService;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
 
 }
