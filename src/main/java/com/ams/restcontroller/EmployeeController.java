@@ -1,4 +1,4 @@
 package com.ams.restcontroller;
 
-public class test {
+public class EmployeeController {
 }
