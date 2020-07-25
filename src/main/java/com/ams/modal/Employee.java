@@ -27,7 +27,7 @@ public class Employee {
     private String managerId;
     @Column(name = "EMP_ADDRESS")
     private String empAddress;
-    @Column(name = "EMP_PIC")
+    @Column(name = "EMP_PIC", length = 100000)
     private Byte[] empPic;
     @Column(name = "EMP_DESIGNATION")
     private String Designation;

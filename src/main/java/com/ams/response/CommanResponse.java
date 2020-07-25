@@ -8,8 +8,26 @@ public class CommanResponse {
     public String MESSAGE;
     public Boolean Status;
     public List<Employee> employees;
+    public Employee employee;
 
+    public CommanResponse(String MESSAGE, Boolean status) {
+        this.MESSAGE = MESSAGE;
+        Status = status;
+    }
 
+    public CommanResponse(String MESSAGE, Boolean status, Employee employee) {
+        this.MESSAGE = MESSAGE;
+        Status = status;
+        this.employee = employee;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public CommanResponse(String MESSAGE, Boolean status, List<Employee> employees) {
         this.MESSAGE = MESSAGE;
