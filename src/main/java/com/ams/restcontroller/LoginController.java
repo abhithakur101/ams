@@ -1,10 +1,17 @@
 package com.ams.restcontroller;
 
-import com.ams.modal.Login;
-import com.ams.repository.LoginRepo;
-import com.ams.response.LoginResponse;
+import com.ams.MyUserDetailsService;
+import com.ams.modal.Employee;
+
+import com.ams.repository.UserRepository;
+import com.ams.response.AuthenticationResponse;
+import com.ams.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -12,39 +19,41 @@ import java.util.Random;
 
 @RestController
 public class LoginController {
+
     @Autowired
-    LoginRepo loginRepo;
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public Login insert(@ModelAttribute Login login) {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 126;
-        Random random = new Random();
+    private AuthenticationManager authenticationManager;
 
-        String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+    @Autowired
+    private JwtUtil jwtTokenUtil;
 
-        System.out.println(generatedString);
-        String token = generatedString;
-        login.setToken(token);
-        Date date = new Date();
-        login.setDate(date);
-        loginRepo.save(login);
-        return login;
-    }
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
-    public LoginResponse checkSession(String token) {
-        Login Token = loginRepo.findByToken(token);
+    @Autowired
+    UserRepository userRepository;
 
-        if (token == null) {
-            LoginResponse loginResponse = new LoginResponse(Token, "Your Token Got Expired or Removed !");
-            return loginResponse;
-        } else {
-            LoginResponse loginResponse = new LoginResponse(Token, "Login Successfully !");
-            return loginResponse;
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody Employee employee) throws Exception {
+
+        String empMobile = employee.getEmpMobile();
+        String password = employee.getEmpPassword();
+        Employee employee1 = userRepository.findByEmpMobile(empMobile);
+        try {
+
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(empMobile, password)
+            );
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
         }
+
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(employee.getEmpId());
+
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, employee1));
     }
 }
