@@ -59,31 +59,6 @@ class HelloWorldController {
 		return "Hello World";
 	}
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody Employee employee) throws Exception {
-
-		String EmpID = employee.getEmpId();
-		String password = employee.getEmpPassword();
-		Employee employee1 = userRepository.findByEmpId(EmpID);
-		try {
-
-
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(EmpID, password)
-			);
-		} catch (BadCredentialsException e) {
-			throw new Exception("Incorrect username or password", e);
-		}
-
-
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(employee.getEmpId());
-
-		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new AuthenticationResponse(jwt, employee1));
-	}
-
 
 }
 
