@@ -14,7 +14,6 @@ import java.util.Random;
 public class LoginController {
     @Autowired
     LoginRepo loginRepo;
-
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Login insert(@ModelAttribute Login login) {
         int leftLimit = 48; // numeral '0'

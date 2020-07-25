@@ -1,5 +1,4 @@
 package com.ams.modal;
-
 import javax.persistence.*;
 import java.util.Date;
 
