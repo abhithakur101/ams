@@ -1,8 +1,11 @@
 package com.ams;
+
 import com.ams.filters.JwtRequestFilter;
+import com.ams.request.AuthenticationRequest;
 import com.ams.response.AuthenticationResponse;
 import com.ams.modal.Employee;
 import com.ams.repository.UserRepository;
+
 import com.ams.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -40,13 +43,16 @@ public class AttendenceManagmentSystemApplication {
 class HelloWorldController {
 
 	@Autowired
-	UserRepository userRepository;
-	@Autowired
 	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	private JwtUtil jwtTokenUtil;
+
 	@Autowired
 	private MyUserDetailsService userDetailsService;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@RequestMapping({"/hello"})
 	public String firstPage() {
@@ -56,11 +62,14 @@ class HelloWorldController {
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody Employee employee) throws Exception {
 
+		String EmpID = employee.getEmpId();
+		String password = employee.getEmpPassword();
+		Employee employee1 = userRepository.findByEmpId(EmpID);
 		try {
-			String username = employee.getEmpId();
-			String password = employee.getEmpPassword();
+
+
 			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(username, password)
+					new UsernamePasswordAuthenticationToken(EmpID, password)
 			);
 		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password", e);
@@ -72,7 +81,7 @@ class HelloWorldController {
 
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+		return ResponseEntity.ok(new AuthenticationResponse(jwt, employee1));
 	}
 
 
@@ -111,4 +120,5 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 	}
+
 }
