@@ -1,19 +1,47 @@
 package com.ams.restcontroller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ams.enums.Role;
+import com.ams.modal.Employee;
+import com.ams.repository.EmployeeRepo;
+import com.ams.response.CommanResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    public void getEmployees() {
+    @Autowired
+    EmployeeRepo employeeRepo;
+
+    @GetMapping("/getemployees")
+    public ResponseEntity<?> getEmployees(@RequestParam String EmpMobile) {
+        List<Employee> employees = null;
+        Employee employee = employeeRepo.findByEmpMobile(EmpMobile);
+        try {
+            if (employee.getEmpRole().equals(Role.Admin)) {
+                employees = employeeRepo.findAll();
+                if (employees.isEmpty()) {
+                    return ResponseEntity.ok(new CommanResponse("Empty Database", true, employees));
+                } else {
+                    return ResponseEntity.ok(new CommanResponse("Autorized Request", true, employees));
+                }
+            } else {
+                return ResponseEntity.ok(new CommanResponse("UnAutorized Request", false, employees));
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.ok(new CommanResponse(ex.getMessage(), false, employees));
+        }
     }
 
-    public void getEmployee() {
+    @GetMapping("/getemployees")
+    public void getEmployee(@RequestParam String EmpMobile) {
+        Employee employee = employeeRepo.findByEmpMobile(EmpMobile);
 
     }
 
