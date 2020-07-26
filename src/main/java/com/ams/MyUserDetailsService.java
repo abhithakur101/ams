@@ -21,10 +21,10 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        Employee employee = userRepository.findByEmpId(s);
-        String username = employee.getEmpId();
+        Employee employee = userRepository.findByEmpMobile(s);
+        String mobile = employee.getEmpMobile();
         String password = employee.getEmpPassword();
-        System.out.println("username " + username + "password  " + password);
-        return new User(username, password, new ArrayList<>());
+        System.out.println("username " + mobile + "password  " + password);
+        return new User(mobile, password, new ArrayList<>());
     }
 }

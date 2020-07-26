@@ -1,21 +1,21 @@
 package com.ams.restcontroller;
 
-import com.ams.MyUserDetailsService;
-import com.ams.modal.Employee;
-
-import com.ams.repository.UserRepository;
-import com.ams.response.AuthenticationResponse;
-import com.ams.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.Random;
+import com.ams.MyUserDetailsService;
+import com.ams.modal.Employee;
+import com.ams.repository.UserRepository;
+import com.ams.response.AuthenticationResponse;
+import com.ams.util.JwtUtil;
 
 @RestController
 public class LoginController {
@@ -50,7 +50,7 @@ public class LoginController {
 
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(employee.getEmpId());
+                .loadUserByUsername(employee.getEmpMobile());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 

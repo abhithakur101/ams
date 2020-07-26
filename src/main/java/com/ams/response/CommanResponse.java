@@ -5,32 +5,32 @@ import com.ams.modal.Employee;
 import java.util.List;
 
 public class CommanResponse {
-    public String MESSAGE;
-    public Boolean Status;
+    public String message;
+    public Boolean status;
     public List<Employee> employees;
 
 
 
-    public CommanResponse(String MESSAGE, Boolean status, List<Employee> employees) {
-        this.MESSAGE = MESSAGE;
-        Status = status;
+    public CommanResponse(String message, Boolean status, List<Employee> employees) {
+        this.message = message;
+       this. status = status;
         this.employees = employees;
     }
 
     public String getMESSAGE() {
-        return MESSAGE;
+        return message;
     }
 
-    public void setMESSAGE(String MESSAGE) {
-        this.MESSAGE = MESSAGE;
+    public void setMESSAGE(String message) {
+        this.message = message;
     }
 
     public Boolean getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(Boolean status) {
-        Status = status;
+    	this.status = status;
     }
 
     public List<Employee> getEmployees() {

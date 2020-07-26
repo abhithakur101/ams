@@ -5,6 +5,8 @@ import com.ams.enums.Role;
 import com.ams.modal.Employee;
 import com.ams.repository.EmployeeRepo;
 import com.ams.response.CommanResponse;
+import com.ams.service.EmployeeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,12 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     EmployeeRepo employeeRepo;
+    
+    @Autowired
+    EmployeeService service;
 
     @GetMapping("/getemployees")
-    public ResponseEntity<?> getEmployees(@RequestParam String EmpMobile) {
+    public ResponseEntity<?> getEmployees(@RequestParam("mobile") String EmpMobile) {
         List<Employee> employees = null;
         Employee employee = employeeRepo.findByEmpMobile(EmpMobile);
         try {
@@ -39,7 +44,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/getemployees")
+    @GetMapping("/getemployee")
     public void getEmployee(@RequestParam String EmpMobile) {
         Employee employee = employeeRepo.findByEmpMobile(EmpMobile);
 
