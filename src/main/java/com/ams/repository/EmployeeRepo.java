@@ -23,8 +23,8 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
             "e.empAddress=:empAddress,e.empPic=:empPic," +
             "e.Designation=:Designation,e.empPassword=:empPassword," +
             "e.OfficeAddress=:OfficeAddress,e.shift=:shift where e.empId =:empId")
-    void updateEmployee(@Param("empName") String empName, @Param("empMobile") String empMobile, @Param("empEmail") String empEmail, @Param("empAddress") String empAddress,
-                        @Param("empPic") Byte[] empPic, @Param("Designation") String Designation, @Param("empPassword") String empPassword,
+   public void updateEmployee(@Param("empName") String empName, @Param("empMobile") String empMobile, @Param("empEmail") String empEmail, @Param("empAddress") String empAddress,
+                        @Param("empPic") byte[] empPic, @Param("Designation") String Designation, @Param("empPassword") String empPassword,
                         @Param("OfficeAddress") String OfficeAddress, @Param("shift") Shift shift, @Param("empId") String empId);
 
 }
