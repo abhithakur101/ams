@@ -27,8 +27,8 @@ public class Employee {
     private String managerId;
     @Column(name = "EMP_ADDRESS")
     private String empAddress;
-    @Column(name = "EMP_PIC")
-    private Byte[] empPic;
+    @Column(name = "EMP_PIC", length = 2147483647)
+    private byte[] empPic;
     @Column(name = "EMP_DESIGNATION")
     private String Designation;
     @Column(name = "OFFICE_ADDRESS")
@@ -51,7 +51,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String empId, String empName, String empPassword, String empEmail, String empMobile, String managerId, String empAddress, Byte[] empPic, String designation, String officeAddress, Role empRole, Shift shift
+    public Employee(int id, String empId, String empName, String empPassword, String empEmail, String empMobile, String managerId, String empAddress, byte[] empPic, String designation, String officeAddress, Role empRole, Shift shift
             , String createdDate, String createdBy, String modifiedDate, String modifiedBy, String activeStatus) {
         this.empId = empId;
         this.empName = empName;
@@ -155,11 +155,11 @@ public class Employee {
         this.empAddress = empAddress;
     }
 
-    public Byte[] getEmpPic() {
+    public byte[] getEmpPic() {
         return empPic;
     }
 
-    public void setEmpPic(Byte[] empPic) {
+    public void setEmpPic(byte[] empPic) {
         this.empPic = empPic;
     }
 

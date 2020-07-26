@@ -50,7 +50,7 @@ public class JwtUtil {
         Calendar cal = Calendar.getInstance(Locale.US);
         Calendar cal1 = Calendar.getInstance(Locale.US);
         cal1.setTime(cal.getTime());
-        cal1.add(Calendar.SECOND, 300);
+        cal1.add(Calendar.HOUR, 10);
         Calendar cal2 = Calendar.getInstance(Locale.US);
         System.out.println("cal time" + cal.getTime());
         System.out.println("cal 2 time " + cal1.getTime());

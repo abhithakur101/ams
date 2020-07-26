@@ -14,8 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.Random;
+
 
 @RestController
 public class LoginController {
@@ -33,7 +32,7 @@ public class LoginController {
     UserRepository userRepository;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody Employee employee) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@ModelAttribute Employee employee) throws Exception {
 
         String empMobile = employee.getEmpMobile();
         String password = employee.getEmpPassword();
@@ -50,7 +49,7 @@ public class LoginController {
 
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(employee.getEmpId());
+                .loadUserByUsername(employee.getEmpMobile());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
